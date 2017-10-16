@@ -4,7 +4,7 @@
         <article v-for="stock in stocks">
             <p>{{ stock.name }}</p>
             <p>{{ stock.price }}</p>
-            <input @change="handleChange" :value="count[stock.name]" type="number" placeholder="Enter amount" :name="stock.name" />
+            <input @input="handleChange" :value="count[stock.name]" type="number" placeholder="Enter amount" :name="stock.name" />
             <button @click="buyStocks"  :id="stock.name">Buy</button>
         </article>
     </div>
@@ -37,7 +37,7 @@
                 let stockName = e.target.id;
                 this.addStockToPortfolioAction({
                     name: stockName,
-                    count: this.count[stockName]
+                    count: parseInt(this.count[stockName])
                 })
             }
         }

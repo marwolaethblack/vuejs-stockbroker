@@ -20,7 +20,7 @@ const state = {
             price: 350
         }
     ],
-    
+
 }
 
 //Getter
@@ -36,12 +36,20 @@ const randomizePrices = () => {
 }
 
 const addStockToPortfolio = (context, payload) => {
-
-    if(state.portfolio.filter( (stock, index) => stock.name === payload.name).length > 0) {
-        state.portfolio[index].count +- payload.count;
+    //variable for storing indices
+    let i;
+    i = state.portfolio.findIndex( (stock) => stock.name === payload.name);
+    //variable assignment in if intended
+    if(i != -1) {
+        console.log(state.portfolio[i]);
+        state.portfolio[i].count += payload.count;
     } else {
         state.portfolio.push(payload);
     }
+
+    i = state.stocks.findIndex( stock => stock.name === payload.name);
+
+    state.money -= state.stocks[i].price * payload.count;
 
 }
 
