@@ -1,10 +1,18 @@
 <template>
-    <p>Portfolio</p>
+    <ul>
+        <li v-for="stock in portfolio">{{ stock.name }}</li>
+    </ul>
 </template>
 
 <script>
-    export default {
+    import { mapGetters } from 'vuex'
 
+    export default {
+        computed: {
+            ...mapGetters([
+                'portfolio'
+            ])
+        }
     }
 </script>
 

@@ -19,7 +19,8 @@ const state = {
             name: 'BMW',
             price: 350
         }
-    ]
+    ],
+    
 }
 
 //Getter
@@ -34,12 +35,27 @@ const randomizePrices = () => {
     } )
 }
 
+const addStockToPortfolio = (context, payload) => {
 
+    if(state.portfolio.filter( (stock, index) => stock.name === payload.name).length > 0) {
+        state.portfolio[index].count +- payload.count;
+    } else {
+        state.portfolio.push(payload);
+    }
+
+}
 
 //Actions
 const randomizePricesAction = (context) => {
     context.commit('randomizePrices');
 }
+
+const addStockToPortfolioAction = (context, payload) => {
+    context.commit('addStockToPortfolio', payload);
+}
+
+
+
 
 const store = new Vuex.Store({
    state,
@@ -49,10 +65,12 @@ const store = new Vuex.Store({
        portfolio
    },
    mutations: {
-       randomizePrices
+       randomizePrices,
+       addStockToPortfolio
    },
    actions: {
-       randomizePricesAction
+       randomizePricesAction,
+       addStockToPortfolioAction
    }
 });
 
