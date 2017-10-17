@@ -37,8 +37,7 @@ const randomizePrices = () => {
 
 const addStockToPortfolio = (context, payload) => {
     //variable for storing indices
-    let i;
-    i = state.portfolio.findIndex( (stock) => stock.name === payload.name);
+    let i = state.portfolio.findIndex( (stock) => stock.name === payload.name);
     //variable assignment in if intended
     if(i != -1) {
         console.log(state.portfolio[i]);
@@ -53,6 +52,15 @@ const addStockToPortfolio = (context, payload) => {
 
 }
 
+
+const sellStocks = (context, payload) =>  {
+    let i = state.portfolio.findIndex( stock => stock.name === payload.name);
+    state.portfolio[i].count -= payload.count;
+
+    i = state.stocks.findIndex( stock => stock.name === payload.name);
+    state.money += state.stocks[i].price * payload.count;
+}
+
 //Actions
 const randomizePricesAction = (context) => {
     context.commit('randomizePrices');
@@ -60,6 +68,10 @@ const randomizePricesAction = (context) => {
 
 const addStockToPortfolioAction = (context, payload) => {
     context.commit('addStockToPortfolio', payload);
+}
+
+const sellStocksAction = (context, payload) => {
+    context.commit('sellStocks', payload);
 }
 
 
@@ -74,11 +86,13 @@ const store = new Vuex.Store({
    },
    mutations: {
        randomizePrices,
-       addStockToPortfolio
+       addStockToPortfolio,
+       sellStocks
    },
    actions: {
        randomizePricesAction,
-       addStockToPortfolioAction
+       addStockToPortfolioAction,
+       sellStocksAction
    }
 });
 
