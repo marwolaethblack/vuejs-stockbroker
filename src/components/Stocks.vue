@@ -30,16 +30,23 @@
                 'addStockToPortfolioAction'
             ]),
             handleChange(e) {
-                let element = e.target;
+                const element = e.target;
                 this.count[element.name] = e.target.value;
             },
             buyStocks(e) {
-                let stockName = e.target.id;
+                const stockName = e.target.id;
+                const price = this.stocks[stockName].price;
 
-                this.addStockToPortfolioAction({
-                    name: stockName,
-                    count: parseInt(this.count[stockName])
-                })
+                if(this.count[stockName] * price > this.money) {
+                    alert("You do not have enough money to buy that many stocks");
+                } else {
+                    this.addStockToPortfolioAction({
+                        name: stockName,
+                        count: parseInt(this.count[stockName])
+                    })
+                }
+
+
             }
         }
     }

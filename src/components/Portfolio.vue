@@ -23,7 +23,9 @@
         },
         computed: {
             ...mapGetters([
-                'portfolio'
+                'portfolio',
+                'stocks',
+                'money'
             ])
         },
         methods: {
@@ -35,12 +37,20 @@
                 this.count[element.name] = e.target.value;
             },
             sellStocks(e) {
+                const stockName = e.target.id;
+                const stocksToSell = this.count[stockName];
+                const ownedStocks = this.portfolio[stockName].count;
 
-                let stockName = e.target.id;
-                this.sellStocksAction({
-                    name: stockName,
-                    count: parseInt(this.count[stockName])
-                })
+                if(stocksToSell > ownedStocks) {
+                    alert("You are trying to sell more stocks than you own")
+                } else {
+                    this.sellStocksAction({
+                        name: stockName,
+                        count: parseInt(this.count[stockName])
+                    })
+                }
+
+
             }
         }
     }
