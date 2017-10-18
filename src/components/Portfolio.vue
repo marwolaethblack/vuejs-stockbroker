@@ -1,13 +1,14 @@
 <template>
-    <ul>
-        <li v-for="stock in portfolio">
-            <h3>{{ stock.name }}</h3>
+    <ul v-if="Object.keys(portfolio).length > 0">
+        <li v-for="(stock, stockName) in portfolio">
+            <h3>{{ stockName }}</h3>
                 <p>{{ stock.count + " owned"}}</p>
-                <input @input="handleChange" :value="count[stock.name]" type="number" placeholder="Enter amount" :name="stock.name" />
-                <button @click="sellStocks"  :id="stock.name">Sell</button>
-                <span>{{ errors[stock.name] }}</span>
+                <input @input="handleChange" :value="count[stockName]" type="number" placeholder="Enter amount" :name="stockName" />
+                <button @click="sellStocks"  :id="stockName">Sell</button>
+                <span>{{ errors[stockName] }}</span>
         </li>
     </ul>
+    <p v-else>Your portfolio is empty</p>
 </template>
 
 <script>

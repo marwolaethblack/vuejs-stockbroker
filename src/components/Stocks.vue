@@ -1,11 +1,11 @@
 <template>
     <div>
         <p>Stocks</p>
-        <article v-for="stock in stocks">
-            <p>{{ stock.name }}</p>
+        <article v-for="(stock, stockName) in stocks">
+            <p>{{ stockName }}</p>
             <p>{{ stock.price }}</p>
-            <input @input="handleChange" :value="count[stock.name]" type="number" placeholder="Enter amount" :name="stock.name" />
-            <button @click="buyStocks"  :id="stock.name">Buy</button>
+            <input @input="handleChange" :value="count[stockName]" type="number" placeholder="Enter amount" :name="stockName" />
+            <button @click="buyStocks"  :id="stockName">Buy</button>
         </article>
     </div>
 </template>
@@ -21,7 +21,8 @@
         },
         computed: {
             ...mapGetters([
-                'stocks'
+                'stocks',
+                'money'
             ])
         },
         methods: {
@@ -34,6 +35,7 @@
             },
             buyStocks(e) {
                 let stockName = e.target.id;
+
                 this.addStockToPortfolioAction({
                     name: stockName,
                     count: parseInt(this.count[stockName])

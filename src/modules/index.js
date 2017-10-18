@@ -5,21 +5,19 @@ Vue.use(Vuex);
 
 const state = {
     money: 10000,
-    portfolio: [],
-    stocks: [
-        {
-            name: 'Apple',
+    portfolio: {},
+    stocks: {
+        Apple: {
             price: 500
         },
-        {
-            name: 'Tesla',
-            price: 400
+        Tesla: {
+           price: 330
         },
-        {
-            name: 'BMW',
-            price: 350
-        }
-    ],
+        BMW: {
+            price: 250
+        },
+
+    },
 
 }
 
@@ -30,35 +28,38 @@ const portfolio = state => state.portfolio;
 
 //Mutations
 const randomizePrices = () => {
-   return state.stocks.forEach( stock => {
-       return stock.price = Math.floor(Math.random() * 300 + 50);
-    } )
+    const { stocks } = state;
+
+    Object.keys(stocks).forEach( stock => {
+        stocks[stock].price = Math.floor(Math.random() * 300 + 50);
+    })
+
 }
 
-const addStockToPortfolio = (context, payload) => {
-    //variable for storing indices
-    let i = state.portfolio.findIndex( (stock) => stock.name === payload.name);
-    //variable assignment in if intended
-    if(i != -1) {
-        console.log(state.portfolio[i]);
-        state.portfolio[i].count += payload.count;
+const addStockToPortfolio = (context, payload) => {;
+    const { portfolio } = state;
+    const { name } = payload;
+    if(portfolio[name]) {
+        state.portfolio[name].count += payload.count;
     } else {
-        state.portfolio.push(payload);
+        state.portfolio[name] = { count: payload.count };
+        console.log(state.portfolio[name]);
     }
 
-    i = state.stocks.findIndex( stock => stock.name === payload.name);
 
-    state.money -= state.stocks[i].price * payload.count;
+    state.money -= state.stocks[name].price * payload.count;
 
 }
 
 
 const sellStocks = (context, payload) =>  {
-    let i = state.portfolio.findIndex( stock => stock.name === payload.name);
-    state.portfolio[i].count -= payload.count;
+    const { portfolio } = state;
+    const { name } = payload;
+    const newCount = state.portfolio[name].count - payload.count;
 
-    i = state.stocks.findIndex( stock => stock.name === payload.name);
-    state.money += state.stocks[i].price * payload.count;
+    state.portfolio = {...state.portfolio,[name]: { count: newCount } };
+
+    state.money += state.stocks[name].price * payload.count;
 }
 
 //Actions
