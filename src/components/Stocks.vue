@@ -4,8 +4,8 @@
         <article v-for="(stock, stockName) in stocks">
             <p>{{ stockName }}</p>
             <p>{{ stock.price }}</p>
-            <input @input="handleChange" :value="count[stockName]" type="number" placeholder="Enter amount" :name="stockName" />
-            <button @click="buyStocks"  :id="stockName">Buy</button>
+            <input class="input is-primary" @input="handleChange" :value="count[stockName]" type="number" placeholder="Enter amount" :name="stockName" />
+            <button :disabled="isNaN(count[stockName]) || count[stockName] <= 0" class="button is-primary" @click="buyStocks"  :id="stockName" >Buy</button>
         </article>
     </div>
 </template>

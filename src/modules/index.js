@@ -56,23 +56,29 @@ const sellStocks = (context, payload) =>  {
     const { portfolio } = state;
     const { name } = payload;
     const newCount = state.portfolio[name].count - payload.count;
+    console.log(newCount);
 
-    state.portfolio = {...state.portfolio,[name]: { count: newCount } };
+    if(newCount === 0) {
+        delete state.portfolio[name]
+        state.portfolio = { ...state.portfolio };
+    } else{
+        state.portfolio = {...state.portfolio,[name]: { count: newCount } };
+    }
 
     state.money += state.stocks[name].price * payload.count;
 }
 
 //Actions
-const randomizePricesAction = (context) => {
-    context.commit('randomizePrices');
+const randomizePricesAction = ({ commit }) => {
+    commit('randomizePrices');
 }
 
-const addStockToPortfolioAction = (context, payload) => {
-    context.commit('addStockToPortfolio', payload);
+const addStockToPortfolioAction = ({ commit }, payload) => {
+    commit('addStockToPortfolio', payload);
 }
 
-const sellStocksAction = (context, payload) => {
-    context.commit('sellStocks', payload);
+const sellStocksAction = ({ commit }, payload) => {
+    commit('sellStocks', payload);
 }
 
 
