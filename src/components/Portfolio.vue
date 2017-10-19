@@ -52,6 +52,8 @@
 
                 if(stocksToSell > ownedStocks) {
                     alert("You are trying to sell more stocks than you own")
+                } else if(stocksToSell <= 0 || isNaN(stocksToSell)) {
+                    alert('Invalid input');
                 } else {
                     this.sellStocksAction({
                         name: stockName,

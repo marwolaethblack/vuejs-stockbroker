@@ -5,7 +5,7 @@
             <p>{{ stockName }}</p>
             <p>{{ stock.price }}</p>
             <input class="input is-primary" @input="handleChange" :value="count[stockName]" type="number" placeholder="Enter amount" :name="stockName" />
-            <button :disabled="isNaN(count[stockName]) || count[stockName] <= 0" class="button is-primary" @click="buyStocks"  :id="stockName" >Buy</button>
+            <button class="button is-primary" @click="buyStocks"  :id="stockName" >Buy</button>
         </article>
     </div>
 </template>
@@ -36,13 +36,16 @@
             buyStocks(e) {
                 const stockName = e.target.id;
                 const price = this.stocks[stockName].price;
+                const stocksToBuy = this.count[stockName]
 
-                if(this.count[stockName] * price > this.money) {
+                if(stocksToBuy * price > this.money) {
                     alert("You do not have enough money to buy that many stocks");
+                }else if(stocksToBuy <= 0 || isNaN(stocksToBuy)) {
+                    alert('Invalid input');
                 } else {
                     this.addStockToPortfolioAction({
                         name: stockName,
-                        count: parseInt(this.count[stockName])
+                        count: parseInt(stocksToBuy)
                     })
                 }
 
